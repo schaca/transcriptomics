@@ -1,7 +1,4 @@
----
-title: "README"
-output: html_document
----
+# README
 
 This repository contains bash scripts for processing and analyzing RNA-seq data.
 
