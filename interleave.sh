@@ -3,7 +3,7 @@
 # Usage: interleave.sh path/to/input/fastq/folder path/to/output/folder path/to/tab/separated/file
 #
 # This script adds read pairing info to paired end Illumina reads and outputs a single interleaved fastq file in compressed format.
-# It requires three arguments: an input folder of fastq files; an output folder (going to be created if not done already); and a tab separated file listing sample code, forward fastq filename and reverse fastq filename.
+# It requires three arguments: path to the input folder containing fastq files; an output folder (going to be created if not done already); and a tab separated file listing sample code, forward fastq filename and reverse fastq filename.
 # E.g.:
 # AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
 # BBBBB	Sample2_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz Sample2_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
