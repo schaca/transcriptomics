@@ -1,6 +1,6 @@
 # README
 
-This repository contains bash scripts for processing and analyzing RNA-seq data.
+This repository contains bash scripts for processing and analyzing RNA-seq data collected from freshwater diatoms.
 
 > Steps used for transcriptome assembly:
 
