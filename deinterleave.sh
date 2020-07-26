@@ -63,27 +63,28 @@ mkdir -p deinterleave_tmp
 # Downstream tools to process paired-end reads might require identical sequence identifier lines. 
 # Remove everthing on the sequence identifier line after "/" character and split the reads into two files.
 cd deinterleave_tmp/
-echo "$(date)" | tee interleave.log
-echo "Bash version: ${BASH_VERSION}" | tee -a interleave.log
+echo "$(date)" | tee deinterleave.log
+echo "Bash version: ${BASH_VERSION}" | tee -a deinterleave.log
 for file in ../$INDIR/*.fq.gz; do
-	echo "... " | tee -a interleave.log
-	echo "Splitting reads for sample: $identifier" | tee -a interleave.log
+	echo "... " | tee -a deinterleave.log
+	echo "Splitting reads for sample: $identifier" | tee -a deinterleave.log
 	filename=$(basename $file)
 	identifier=$(basename $file | cut -d "." -f1)
 	gunzip -c $file > "${filename%.gz}"
 	cat "${filename%.gz}" | awk 'NR % 4 == 1 {split($0,a,/[/]/);$0=a[1]}1' | paste - - - - - - - - | tee | cut -f 1-4 | tr "\t" "\n" | egrep -v '^$' | gzip -1 > "${identifier}".corr.1.fq.gz
 	cat "${filename%.gz}" | awk 'NR % 4 == 1 {split($0,a,/[/]/);$0=a[1]}1' | paste - - - - - - - - | tee | cut -f 5-8 | tr "\t" "\n" | egrep -v '^$' | gzip -1 > "${identifier}".corr.2.fq.gz 
 	n_reads=$(zcat "${identifier}".corr.1.fq.gz | awk 'NR % 4 == 1 {print $0}' | wc -l)
-	echo "$n_reads paired-end reads were split into two fastq files"| tee -a interleave.log
-	echo "... " | tee -a interleave.log
+	echo "$n_reads paired-end reads were split into two fastq files"| tee -a deinterleave.log
+	echo "... " | tee -a deinterleave.log
+done
 
 # Copy files and remove temporary working directory 
 cp *.corr.1.fq.gz ../"$OUTDIR"
 cp *.corr.2.fq.gz ../"$OUTDIR"
 cp deinterleave.log ../"$OUTDIR"
-cd../
+cd ../
 rm -rf deinterleave_tmp 
-echo "Output files are saved to directory: $OUTDIR" | tee -a "$OUTDIR"/interleave.log
+echo "Output files are saved to directory: $OUTDIR" | tee -a "$OUTDIR"/deinterleave.log
 
 
 
