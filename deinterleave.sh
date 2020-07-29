@@ -2,8 +2,8 @@
 
 # Usage: bash deinterleave.sh -i path/to/interleaved/fastq/files/directory -o path/to/output/directory
 #
-# This script splits interleaved fastq reads into two separate fastq files. It removes the extra info on the sequence identifier line and outputs two paired-end fastq files with extensions ".1.fq.gz" and ".2.fq.gz". 
-#
+# This script splits interleaved fastq reads into two paired-end files. 
+# It removes the pairing info on the sequence identifier lines using awk (everything after '/') and outputs two paired-end fastq files with extensions ".1.fq.gz" and ".2.fq.gz"." 	
 # The part of the code for splitting the reads is modified from: https://gist.github.com/nathanhaigh/3521724
 
 set -o errexit
@@ -38,7 +38,8 @@ do
 	echo "  [-i|--indir]	Specify the path to interleaved paired-end fastq files"
         echo "  [-o|--outdir]	Specify a name for output directory"
 	echo " "
-	echo "	This script splits interleaved fastq reads into two paired-end files. It removes the pairing info on the sequence identifier lines using awk (everything after '/') and outputs two paired-end fastq files with extensions ".1.fq.gz" and ".2.fq.gz"." 	
+	echo "	This script splits interleaved fastq reads into two paired-end files." 
+	echo "	It removes the pairing info on the sequence identifier lines using awk (everything after '/') and outputs two paired-end fastq files with extensions ".1.fq.gz" and ".2.fq.gz"." 	
 	echo "	The part of the code for splitting the reads is modified from: https://gist.github.com/nathanhaigh/3521724"
         exit 0
         ;;
@@ -53,8 +54,8 @@ do
 done
 
 # Argument checks
-[ ! -d $INDIR ] && echo "Error: Couldn't find input directory (-i)" && exit 1
-[ -d $OUTDIR ] && echo "Error: A directory already exists with output directory name (-o)" && exit 1
+[ ! -d $INDIR ] && error "Error: Couldn't find input directory (-i)" 
+[ -d $OUTDIR ] && error "Error: A directory already exists with output directory name (-o)" 
 
 # Create output and temporary working directories
 mkdir -p "$OUTDIR"
