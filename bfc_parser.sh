@@ -2,22 +2,16 @@
 
 # Usage: bash bfc_parser.sh -i /path/to/bfc/corrected/fastq/directory
 #
-# This script parses the results of bfc error correction tool and produces a summary output. The results are saved to the same directory.
-# 
-# Explanation:
-# BFC adds a string to the header line of all reads in the fasta output as " ec:Z:[0-5]_a:h_b_l:h_0) ", where;
-#	- first 0 indicates a succcesfully corrected read, while the failures are coded as:
-#	    2-Many N's; 3-No solid k-mers; 4-Too many uncorrectable N's; 5-Many failed attempts,
-#	- a is the number of k-mers not present in the solid k-mer hash table (ideally 0), 
-#	- h is the max heap size in correction (smaller is better), 
-#	- b is 1 if and only if no raw k-mers are solid
-#	- l is the number of corrections and,
+# This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized.
+#  Short explanation:
+#  BFC adds a string to the sequence identifier line of all reads in the fasta output as 'ec:Z:[0-5]_a:h_b_l:h_0)', where;
+#	-first 0 indicates a succcesfully corrected read, while the failures are coded as:
+#		2-Many N's; 3-No solid k-mers; 4-Too many uncorrectable N's; 5-Many failed attempts,
+#	- l is the number of corrections, and
 #	- h is the number of high-quality corrections.
-# The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized in output.
-#
-# https:/github.com/lh3/bfc
-# https:/github.com/lh3/bfc/issues/9
-# https:/github.com/lh3/bfc/blob/master/correct.c#L138
+#  https:/github.com/lh3/bfc
+#  https:/github.com/lh3/bfc/issues/9
+#  https:/github.com/lh3/bfc/blob/master/correct.c#L138
 
 set -o errexit
 set -o nounset
@@ -43,9 +37,9 @@ do
         echo "$usemsg"
 	echo " "
 	echo " Arguments:"
-	echo "  [-i|--indir]	Specify the path to paired-end fastq files"
+	echo "  [-i|--indir]	Specify the path to bfc corrected fastq files"
         echo " "
-	echo "	This script parses the results of bfc error correction tool and produces a summary output in the same location. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized in output."
+	echo "	This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized."
 	echo " "
 	echo "	Short explanation:"
 	echo " "
