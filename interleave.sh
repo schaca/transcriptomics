@@ -2,9 +2,9 @@
 
 # Usage: bash interleave.sh -i path/to/fastq/files/directory -o path/to/output/directory --filelist path/to/tab/separated/file
 #
-# This script generates interleaved fastq files for a set of Illumina paired-end reads and outputs a log file."
-# A tab separated file must be provided by user as an input argument (--filelist) containing an identifier, forward filename and reverse filename for each pair (see e.g. below)." 
-# It adds '/1' and '/2' to the sequence identifier lines by substituting first space character and combines the reads into an interleaved format using awk and paste commands (modified from https://gist.github.com/nathanhaigh/4544979)"
+# This script generates interleaved fastq files for a set of Illumina paired-end reads and outputs a log file.
+# A tab separated file must be provided by user as an input argument (--filelist) containing an identifier, forward filename and reverse filename for each pair (see e.g. below). 
+# It adds '/1' and '/2' to the sequence identifier lines by substituting first space character and combines the reads into an interleaved format using awk and paste commands (modified from https://gist.github.com/nathanhaigh/4544979)
 # E.g.:
 # AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
 # BBBBB	Sample2_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz Sample2_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
