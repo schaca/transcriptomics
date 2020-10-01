@@ -2,9 +2,10 @@
 
 # Usage: bash interleave.sh -i path/to/fastq/files/directory -o path/to/output/directory --filelist path/to/tab/separated/file
 #
-# This script generates interleaved fastq files for a set of Illumina paired-end reads and outputs a log file.
+# This script generates interleaved fastq files for a set of Illumina paired-end reads.
 # A tab separated file must be provided by user as an input argument (--filelist) containing an identifier, forward filename and reverse filename for each pair (see e.g. below). 
-# It adds '/1' and '/2' to the sequence identifier lines by substituting first space character and combines the reads into an interleaved format using awk and paste commands (modified from https://gist.github.com/nathanhaigh/4544979)
+# The script adds '/1' and '/2' to the sequence identifier lines by substituting first space character, and combines the reads into an interleaved format using awk and paste commands. 
+# Modified from https://gist.github.com/nathanhaigh/4544979.
 # E.g.:
 # AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
 # BBBBB	Sample2_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz Sample2_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
@@ -44,13 +45,14 @@ do
         echo "$usemsg"
         echo " "
 	echo " Arguments:"
-	echo "  [-i|--indir]	Specify the path to paired-end fastq files"
-        echo "  [-o|--outdir]	Specify a new name for output directory"
+	echo "  [-i|--indir]	Path to the directory containing fastq files"
+	echo "  [-o|--outdir]	Path to output directory (will be created if not on the path)"
 	echo "  [--filelist]	Tab separated list containing identifiers and filenames for paired-end reads"
         echo " "
-	echo "	This script generates interleaved fastq files for a set of Illumina paired-end reads and outputs a log file."
+	echo "	This script generates interleaved fastq files for a set of Illumina paired-end reads."
         echo "	A tab separated file must be provided by user as an input argument (--filelist) containing an identifier, forward filename and reverse filename for each pair (see e.g. below)." 
-	echo "	It adds '/1' and '/2' to the sequence identifier lines by substituting first space character and combines the reads into an interleaved format using awk and paste commands (modified from https://gist.github.com/nathanhaigh/4544979)"
+	echo "	The script adds '/1' and '/2' to the sequence identifier lines by substituting first space character, and combines the reads into an interleaved format using awk and paste commands."
+	echo "  Modified from https://gist.github.com/nathanhaigh/4544979"
 	echo " "
 	echo "	E.g.:"
 	echo "		AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz"
@@ -70,7 +72,6 @@ done
 
 # Argument checks
 [ ! -d $INDIR ] && error "Error: Couldn't find input directory (-i)" 
-[ -d $OUTDIR ] && error "Error: A directory already exists with output directory name (-o)" 
 [ ! -f $FILELIST ] && error "Error: Couldn't find fastq file list (--filelist)" 
 
 # Check if paired-end fastq files listed in the tab separated file exist in input directory. 
@@ -79,7 +80,7 @@ while IFS=$'\t' read -r identifier forward_fname reverse_fname; do
 done < "$FILELIST"
 
 # Create output and temporary working directories
-mkdir "$OUTDIR"
+[ ! -d $OUTDIR ] && mkdir "$OUTDIR"
 mkdir interleave_tmp
 
 # Parse the tab separated list, find the files in input directory, add "/1" and "/2" to the sequence identifier lines of forward and reverse reads, and generate interleaved fastq file for each pair by modifying the filename with identifier.

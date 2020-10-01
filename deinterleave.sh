@@ -2,9 +2,9 @@
 
 # Usage: bash deinterleave.sh -i path/to/interleaved/fastq/files/directory -o path/to/output/directory
 #
-# This script splits interleaved fastq reads into two paired-end files. It will process all compressed fastq files in input directory, so input path should only contain interleaved fastq files.
-# It removes the pairing info on the sequence identifier lines using awk (everything after '/') and outputs two paired-end fastq files with extensions ".1.fq.gz" and ".2.fq.gz". 	
-# The part of the code for splitting the reads is modified from: https://gist.github.com/nathanhaigh/3521724
+# This script splits interleaved fastq reads into two paired-end files. It processes all compressed fastq files in input directory, so input path should only contain interleaved fastq files.
+# The script removes the pairing info on the sequence identifier lines using awk (following interleave.sh) and outputs paired-end files with extensions ".1.fq.gz" and ".2.fq.gz". 	
+# Modified from: https://gist.github.com/nathanhaigh/3521724
 
 set -o errexit
 set -o nounset
@@ -35,12 +35,12 @@ do
         echo "$usemsg"
         echo " "
 	echo " Arguments:"
-	echo "  [-i|--indir]	Specify the path to interleaved fastq files"
-        echo "  [-o|--outdir]	Specify a name for output directory"
+	echo "  [-i|--indir]	Path to the directory containing interleaved fastq files"
+	echo "  [-o|--outdir]	Path to output directory (will be created if not on the path)"
 	echo " "
-	echo "	This script splits interleaved fastq reads into two paired-end files. All compressed fastq files in input directory are processed, so input path should only contain interleaved fastq files."
-	echo "	It removes the pairing info on the sequence identifier lines using awk (following interleave.sh, everything after '\' are removed), and outputs two paired-end fastq files with extensions '...1.fq.gz' and '...2.fq.gz'."
-	echo "	The part of the code for splitting the reads is modified from: https://gist.github.com/nathanhaigh/3521724"
+	echo "	This script splits interleaved fastq reads into two paired-end files. It processes all compressed fastq files in input directory, so input path should only contain interleaved fastq files."
+	echo "	The script removes the pairing info on the sequence identifier lines using awk (following interleave.sh) and outputs paired-end fastq files with extensions '.1.fq.gz' and '.2.fq.gz'."
+	echo " Modified from: https://gist.github.com/nathanhaigh/3521724"
         exit 0
         ;;
     -V|--version)
@@ -54,15 +54,13 @@ do
 done
 
 # Argument checks
-[ ! -d $INDIR ] && error "Error: Couldn't find input directory (-i)" 
-[ -d $OUTDIR ] && error "Error: A directory already exists with output directory name (-o)" 
+[ ! -d $INDIR ] && error "Error: Couldn't find input directory (-i)"
 
-# Create output and temporary working directories
-mkdir -p "$OUTDIR"
-mkdir -p deinterleave_tmp
+# Create output and working directories
+[ ! -d $OUTDIR ] && mkdir "$OUTDIR"
+mkdir deinterleave_tmp
 
-# Downstream tools to process paired-end reads might require identical sequence identifier lines. 
-# Remove everthing on the sequence identifier line after "/" character and split the reads into two files.
+# Modify the identifier lines and save the paired-end reads into two files.
 cd deinterleave_tmp/
 echo "$(date)" | tee deinterleave.log
 echo "Bash version: ${BASH_VERSION}" | tee -a deinterleave.log

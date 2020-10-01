@@ -2,7 +2,7 @@
 
 # Usage: bash bfc_parser.sh -i /path/to/bfc/corrected/fastq/directory
 #
-# This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized.
+#  This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized.
 #  Short explanation:
 #  BFC adds a string to the sequence identifier line of all reads in the fasta output as 'ec:Z:[0-5]_a:h_b_l:h_0)', where;
 #	-first 0 indicates a succcesfully corrected read, while the failures are coded as:
@@ -37,9 +37,9 @@ do
         echo "$usemsg"
 	echo " "
 	echo " Arguments:"
-	echo "  [-i|--indir]	Specify the path to bfc corrected fastq files"
+	echo "  [-i|--indir]	Path to bfc corrected fastq files"
         echo " "
-	echo "	This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized."
+	echo "	This script parses the results of bfc error correction tool and produces a summary output. The number and percentage of corrections, high-quality corrections and the reasons for failure are summarized. It processes all compressed fastq files in the input path, soit should only contain BFC corrected fastq files."
 	echo " "
 	echo "	Short explanation:"
 	echo " "
