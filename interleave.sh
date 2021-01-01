@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# Usage: bash interleave.sh -i path/to/fastq/files/directory -o path/to/output/directory --filelist path/to/tab/separated/file
-#
-# This script generates interleaved fastq files for a set of Illumina paired-end reads.
-# A tab separated file must be provided by user as an input argument (--filelist) containing an identifier, forward filename and reverse filename for each pair (see e.g. below). 
-# The script adds '/1' and '/2' to the sequence identifier lines by substituting first space character, and combines the reads into an interleaved format using awk and paste commands. 
-# Modified from https://gist.github.com/nathanhaigh/4544979.
-# E.g.:
-# AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
-# BBBBB	Sample2_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz Sample2_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
-# CCCCC	Sample3_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz Sample3_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz
-
 set -o errexit
 set -o nounset
 
@@ -55,9 +44,9 @@ do
 	echo "  Modified from https://gist.github.com/nathanhaigh/4544979"
 	echo " "
 	echo "	E.g.:"
-	echo "		AAAAA	Sample1_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample1_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz"
-	echo "		BBBBB	Sample2_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample2_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz"
-	echo "		CCCCC	Sample3_XXXXX_XXXXXXXXXX_L001_R1_001_XXXXXXXXX.fastq.gz	Sample3_XXXXX_XXXXXXXXXX_L001_R2_001_XXXXXXXXX.fastq.gz"
+	echo "		AAAAA	AAAAA_forward_read.fastq.gz	AAAAA_reverse_read.fastq.gz"
+	echo "		BBBBB	BBBBB_forward_read.fastq.gz	BBBBB_reverse_read.fastq.gz"
+	echo "		CCCCC	CCCCC_forward_read.fastq.gz	CCCCC_reverse_read.fastq.gz"
         exit 0
         ;;
     -V|--version)
