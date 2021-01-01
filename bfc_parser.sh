@@ -85,6 +85,7 @@ for file in ../$INDIR/*.fq.gz; do
 	total_reads=$(cat $identifier.corr | wc -l) 
 	# Get the number of uncorrected reads and save
 	uncorr_reads=$(awk '{s+=$2}END{print s}' $identifier.failures)
+	corr_reads_perc=$(echo "scale=2; 100-($uncorr_reads*100/$total_reads)" | bc -l)
 	#Print output line by line using the extracted info
 	printf "$(date)" > $identifier.bfc.summary.txt 
 	printf "\nBash version: ${BASH_VERSION}\n" >> $identifier.bfc.summary.txt
@@ -92,7 +93,7 @@ for file in ../$INDIR/*.fq.gz; do
 	printf "\n        BFC error correction summary" >> $identifier.bfc.summary.txt
 	printf "\n############################################\n" >> $identifier.bfc.summary.txt
 	printf "\nInput total reads: %d" $total_reads >> $identifier.bfc.summary.txt
-	printf "\nCorrected reads percent: %.2f" $(echo "100-($uncorr_reads*100/$total_reads)" | bc -l) >> $identifier.bfc.summary.txt
+	printf "\nCorrected reads percent: $corr_reads_perc" >> $identifier.bfc.summary.txt
 	printf "\nUncorrected reads: %d\n" $uncorr_reads >> $identifier.bfc.summary.txt
 	printf "\n--------------------------------------------" >> $identifier.bfc.summary.txt
 	printf "\nUncorrected reads reasons" >> $identifier.bfc.summary.txt
@@ -111,7 +112,7 @@ for file in ../$INDIR/*.fq.gz; do
 	awk -F ':' '{print $5}'  $identifier.corr | awk -F '_' '{print $1}' | sed '/^$/d' | sort -n | uniq -c | tail -n +2 >> $identifier.bfc.summary.txt
 	rm "${file/.gz/}"
 done
-
 cd ..
+
 cp bfc_parser_tmp/*.bfc.summary.txt $INDIR
 rm -rf bfc_parser_tmp
