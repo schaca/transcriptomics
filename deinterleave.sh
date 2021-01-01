@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Usage: bash deinterleave.sh -i path/to/interleaved/fastq/files/directory -o path/to/output/directory
-#
-# This script splits interleaved fastq reads into two paired-end files. It processes all compressed fastq files in input directory, so input path should only contain interleaved fastq files.
-# The script removes the pairing info on the sequence identifier lines using awk (following interleave.sh) and outputs paired-end files with extensions ".1.fq.gz" and ".2.fq.gz". 	
-# Modified from: https://gist.github.com/nathanhaigh/3521724
-
 set -o errexit
 set -o nounset
 
